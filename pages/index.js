@@ -25,7 +25,7 @@ export default function PaginaInicial() {
   // const stateDoReact = React.useState('fladeia')
 
   function handler(event) {
-    const value = event.target.value
+    const value = event.target.value || 'alura'
     setUsername(value)
   }
 
@@ -136,13 +136,15 @@ export default function PaginaInicial() {
               minHeight: '240px'
             }}
           >
-            <Image
-              styleSheet={{
-                borderRadius: '50%',
-                marginBottom: '16px'
-              }}
-              src={`https://github.com/${username}.png`}
-            />
+            <a href={`https://github.com/${username}`} target="_blank">
+              <Image
+                styleSheet={{
+                  borderRadius: '50%',
+                  marginBottom: '16px'
+                }}
+                src={`https://github.com/${username}.png`}
+              />
+            </a>
             <Text
               variant="body4"
               styleSheet={{
