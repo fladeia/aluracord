@@ -1,36 +1,7 @@
+import React from 'react'
+import { useRouter } from 'next/router'
 import { Box, Button, Text, TextField, Image } from '@skynexui/components'
 import appConfig from '../config.json'
-
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: 'Open Sans', sans-serif;
-      }
-      /* App fit Height */
-      html,
-      body,
-      #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */
-    `}</style>
-  )
-}
 
 function Title(props) {
   const Tag = props.tag || 'h1'
@@ -49,11 +20,17 @@ function Title(props) {
 }
 
 export default function PaginaInicial() {
-  const username = 'fladeia'
+  const [username, setUsername] = React.useState('fladeia')
+  const router = useRouter()
+  // const stateDoReact = React.useState('fladeia')
+
+  function handler(event) {
+    const value = event.target.value
+    setUsername(value)
+  }
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: 'flex',
@@ -88,6 +65,12 @@ export default function PaginaInicial() {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function (event) {
+              event.preventDefault()
+              // window.location.href = '/chat'
+              // console.log(window)
+              router.push('./chat')
+            }}
             styleSheet={{
               display: 'flex',
               flexDirection: 'column',
@@ -109,7 +92,10 @@ export default function PaginaInicial() {
               {appConfig.name}
             </Text>
 
+            {/* <input type="text" onChange={handler} /> */}
             <TextField
+              value={username}
+              onChange={handler}
               fullWidth
               textFieldColors={{
                 neutral: {
