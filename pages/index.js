@@ -25,7 +25,7 @@ export default function PaginaInicial() {
   // const stateDoReact = React.useState('fladeia')
 
   function handler(event) {
-    const value = event.target.value || 'alura'
+    const value = event.target.value
     setUsername(value)
   }
 
@@ -68,7 +68,6 @@ export default function PaginaInicial() {
             onSubmit={function (event) {
               event.preventDefault()
               // window.location.href = '/chat'
-              // console.log(window)
               router.push('./chat')
             }}
             styleSheet={{
