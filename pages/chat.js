@@ -92,6 +92,20 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200]
               }}
             />
+            <Button
+              type="submit"
+              label="Enviar"
+              onClick={event => {
+                event.preventDefault()
+                handleNewMessage(message)
+              }}
+              buttonColors={{
+                contrastColor: appConfig.theme.colors.neutrals['000'],
+                mainColor: appConfig.theme.colors.primary[500],
+                mainColorLight: appConfig.theme.colors.primary[400],
+                mainColorStrong: appConfig.theme.colors.primary[600]
+              }}
+            />
           </Box>
         </Box>
       </Box>
