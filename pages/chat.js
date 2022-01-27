@@ -1,11 +1,40 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components'
 import React, { useState } from 'react'
 import appConfig from '../config.json'
+import { createClient } from '@supabase/supabase-js'
+
+const SUPABASE_URL = 'https://zvclbplibmpvksrkfwcf.supabase.co'
+const SUPABASE_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzI4MDM4OCwiZXhwIjoxOTU4ODU2Mzg4fQ.hYLGR67NDdaTdednlqpT3Thywxa08WdANQ5Wzv75AnY'
+// Create a single supabase client for interacting with your database
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 export default function ChatPage() {
-  // Sua lógica vai aqui
   const [message, setMessage] = useState('')
   const [messageList, setMessageList] = useState([])
+
+  React.useEffect(() => {
+    supabaseClient
+      .from('messages')
+      .select('*')
+      .order('id', { ascending: false })
+      .then(({ data }) => {
+        setMessageList(data)
+      })
+  }, [])
+
+  // fetch
+  // default
+  // fetch('https://api.github.com/users/fladeia')
+  //   .then(res => res.json())
+  //   .then(data => console.log(data))
+
+  // fetch('https://api.github.com/users/fladeia').then(async res => {
+  //   const resposta = await res.json()
+  //   console.log(resposta)
+  // })
+
+  // fetch
 
   function handleNewMessage(newMessage) {
     const message = {
@@ -13,11 +42,18 @@ export default function ChatPage() {
       from: 'fladeia',
       text: newMessage
     }
+
+    supabaseClient
+      .from('messages')
+      .insert([message])
+      .then(data => {
+        console.log('criando mensagem: ', data)
+      })
+
     setMessageList([message, ...messageList])
     setMessage('')
   }
 
-  // ./Sua lógica vai aqui
   return (
     <Box
       styleSheet={{
@@ -186,7 +222,7 @@ function MessageList(props) {
                   display: 'inline-block',
                   marginRight: '8px'
                 }}
-                src={`https://github.com/vanessametonini.png`}
+                src={`https://github.com/${message.from}.png`}
               />
               <Text tag="strong">{message.from}</Text>
               <Text
