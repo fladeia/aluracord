@@ -16,6 +16,7 @@ export default function ChatPage() {
     setMessageList([message, ...messageList])
     setMessage('')
   }
+
   // ./Sua lógica vai aqui
   return (
     <Box
@@ -58,7 +59,7 @@ export default function ChatPage() {
             padding: '16px'
           }}
         >
-          <MessageList messages={messageList} />
+          <MessageList messages={messageList} updateList={setMessageList} />
 
           <Box
             as="form"
@@ -138,6 +139,13 @@ function Header() {
 }
 
 function MessageList(props) {
+  // console.log(props.updateList)
+
+  function deleteMessage(id) {
+    const newList = props.messages.filter(message => message.id !== id)
+    props.updateList(newList)
+  }
+
   return (
     <Box
       tag="ul"
@@ -166,7 +174,8 @@ function MessageList(props) {
           >
             <Box
               styleSheet={{
-                marginBottom: '8px'
+                marginBottom: '8px',
+                display: 'flex'
               }}
             >
               <Image
@@ -190,6 +199,20 @@ function MessageList(props) {
               >
                 {new Date().toLocaleDateString()}
               </Text>
+              <Button
+                type="text"
+                label="X"
+                onClick={event => {
+                  event.preventDefault()
+                  deleteMessage(message.id)
+                }}
+                buttonColors={{
+                  contrastColor: appConfig.theme.colors.neutrals['000'],
+                  mainColor: appConfig.theme.colors.primary[500],
+                  mainColorLight: appConfig.theme.colors.primary[400],
+                  mainColorStrong: appConfig.theme.colors.primary[600]
+                }}
+              />
             </Box>
             {message.text}
           </Text>
