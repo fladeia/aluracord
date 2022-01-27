@@ -59,7 +59,7 @@ export default function ChatPage() {
             padding: '16px'
           }}
         >
-          <MessageList messages={messageList} />
+          <MessageList messages={messageList} updateList={setMessageList} />
 
           <Box
             as="form"
@@ -139,13 +139,13 @@ function Header() {
 }
 
 function MessageList(props) {
+  // console.log(props.updateList)
+
   function deleteMessage(id) {
-    props.messages.filter(message => {
-      const newList = message.id !== id
-      console.log(newList)
-      return newList
-    })
+    const newList = props.messages.filter(message => message.id !== id)
+    props.updateList(newList)
   }
+
   return (
     <Box
       tag="ul"
@@ -207,7 +207,6 @@ function MessageList(props) {
                   deleteMessage(message.id)
                 }}
                 buttonColors={{
-                  alignSelf: 'flex-end',
                   contrastColor: appConfig.theme.colors.neutrals['000'],
                   mainColor: appConfig.theme.colors.primary[500],
                   mainColorLight: appConfig.theme.colors.primary[400],
