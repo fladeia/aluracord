@@ -1,7 +1,9 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components'
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import appConfig from '../config.json'
 import { createClient } from '@supabase/supabase-js'
+import { ButtonSendSticker } from '../src/components/ButtonSendSticker'
 
 const SUPABASE_URL = 'https://zvclbplibmpvksrkfwcf.supabase.co'
 const SUPABASE_ANON_KEY =
@@ -11,7 +13,15 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 export default function ChatPage() {
   const [message, setMessage] = useState('')
-  const [messageList, setMessageList] = useState([])
+  const [messageList, setMessageList] = useState([
+    // {
+    //   id: 1,
+    //   from: 'fladeia',
+    //   text: ':sticker: https://www.alura.com.br/imersao-react-4/assets/figurinhas/Figurinha_2.png'
+    // }
+  ])
+  const router = useRouter()
+  const loggedInUser = router.query.username
 
   React.useEffect(() => {
     supabaseClient
@@ -39,7 +49,7 @@ export default function ChatPage() {
   function handleNewMessage(newMessage) {
     const message = {
       id: messageList.length + 1,
-      from: 'fladeia',
+      from: loggedInUser,
       text: newMessage
     }
 
@@ -127,6 +137,12 @@ export default function ChatPage() {
                 backgroundColor: appConfig.theme.colors.neutrals[800],
                 marginRight: '12px',
                 color: appConfig.theme.colors.neutrals[200]
+              }}
+            />
+            <ButtonSendSticker
+              onStickerClick={sticker => {
+                console.log('Usando o componente')
+                handleNewMessage(`:sticker: ${sticker}`)
               }}
             />
             <Button
@@ -250,7 +266,12 @@ function MessageList(props) {
                 }}
               />
             </Box>
-            {message.text}
+            {/* {message.text} */}
+            {message.text.startsWith(':sticker:') ? (
+              <Image src={message.text.replace(':sticker:', '')} />
+            ) : (
+              message.text
+            )}
           </Text>
         )
       })}

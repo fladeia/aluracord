@@ -68,7 +68,7 @@ export default function PaginaInicial() {
             onSubmit={function (event) {
               event.preventDefault()
               // window.location.href = '/chat'
-              router.push('./chat')
+              router.push(`./chat?username=${username}`)
             }}
             styleSheet={{
               display: 'flex',
