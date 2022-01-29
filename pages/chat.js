@@ -1,14 +1,9 @@
-import { Box, Text, TextField, Image, Button } from '@skynexui/components'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import appConfig from '../config.json'
-import { createClient } from '@supabase/supabase-js'
+import { Box, Text, TextField, Image, Button } from '@skynexui/components'
 import { ButtonSendSticker } from '../src/components/ButtonSendSticker'
-
-const SUPABASE_URL = 'https://zvclbplibmpvksrkfwcf.supabase.co'
-const SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzI4MDM4OCwiZXhwIjoxOTU4ODU2Mzg4fQ.hYLGR67NDdaTdednlqpT3Thywxa08WdANQ5Wzv75AnY'
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+import { SupabaseSelect, SupabaseInsert } from '../src/functions/functions'
+import appConfig from '../config.json'
 
 export default function ChatPage() {
   const [message, setMessage] = useState('')
@@ -16,28 +11,9 @@ export default function ChatPage() {
   const router = useRouter()
   const loggedInUser = router.query.username
 
-  React.useEffect(() => {
-    supabaseClient
-      .from('messages')
-      .select('*')
-      .order('id', { ascending: false })
-      .then(({ data }) => {
-        setMessageList(data)
-      })
+  useEffect(() => {
+    SupabaseSelect(setMessageList)
   }, [])
-
-  // fetch
-  // default
-  // fetch('https://api.github.com/users/fladeia')
-  //   .then(res => res.json())
-  //   .then(data => console.log(data))
-
-  // fetch('https://api.github.com/users/fladeia').then(async res => {
-  //   const resposta = await res.json()
-  //   console.log(resposta)
-  // })
-
-  // fetch
 
   function handleNewMessage(newMessage) {
     const message = {
@@ -46,13 +22,7 @@ export default function ChatPage() {
       text: newMessage
     }
 
-    supabaseClient
-      .from('messages')
-      .insert([message])
-      .then(data => {
-        console.log('criando mensagem: ', data)
-      })
-
+    SupabaseInsert(message)
     setMessageList([message, ...messageList])
     setMessage('')
   }
