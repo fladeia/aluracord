@@ -8,18 +8,11 @@ import { ButtonSendSticker } from '../src/components/ButtonSendSticker'
 const SUPABASE_URL = 'https://zvclbplibmpvksrkfwcf.supabase.co'
 const SUPABASE_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzI4MDM4OCwiZXhwIjoxOTU4ODU2Mzg4fQ.hYLGR67NDdaTdednlqpT3Thywxa08WdANQ5Wzv75AnY'
-// Create a single supabase client for interacting with your database
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 export default function ChatPage() {
   const [message, setMessage] = useState('')
-  const [messageList, setMessageList] = useState([
-    // {
-    //   id: 1,
-    //   from: 'fladeia',
-    //   text: ':sticker: https://www.alura.com.br/imersao-react-4/assets/figurinhas/Figurinha_2.png'
-    // }
-  ])
+  const [messageList, setMessageList] = useState([])
   const router = useRouter()
   const loggedInUser = router.query.username
 
@@ -141,7 +134,6 @@ export default function ChatPage() {
             />
             <ButtonSendSticker
               onStickerClick={sticker => {
-                console.log('Usando o componente')
                 handleNewMessage(`:sticker: ${sticker}`)
               }}
             />
