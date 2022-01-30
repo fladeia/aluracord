@@ -20,3 +20,11 @@ export const SupabaseInsert = async message => {
     .insert([message])
   console.log(`Error - insert supabase:  ${error}`)
 }
+
+export const SupabaseDelete = async id => {
+  const { data, error } = await supabaseClient
+    .from('messages')
+    .delete()
+    .match({ id: id })
+  console.log(`Error - delete supabase:  ${error}`)
+}

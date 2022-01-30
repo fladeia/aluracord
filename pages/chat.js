@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Box, Text, TextField, Image, Button } from '@skynexui/components'
-import { SupabaseSelect, SupabaseInsert } from '../src/services/supabase'
+import {
+  SupabaseSelect,
+  SupabaseInsert,
+  SupabaseDelete
+} from '../src/services/supabase'
 import { ButtonSendSticker } from '../src/components/Buttons/ButtonSendSticker'
 import { Header } from '../src/components/Header'
 import { handleNewMessage, handleDeleteMessage } from '../src/utils/handler'
@@ -136,13 +140,6 @@ export default function ChatPage() {
 }
 
 function MessageList(props) {
-  // function handleDeleteMessage(id) {
-  //   const newMessageList = props.messageList.filter(
-  //     message => message.id !== id
-  //   )
-  //   props.setMessageList(newMessageList)
-  // }
-
   return (
     <Box
       tag="ul"
@@ -203,6 +200,7 @@ function MessageList(props) {
                   event.preventDefault()
                   handleDeleteMessage(
                     message.id,
+                    SupabaseDelete,
                     props.messageList,
                     props.setMessageList
                   )

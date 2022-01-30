@@ -17,7 +17,13 @@ export function handleNewMessage(
   setMessage('')
 }
 
-export function handleDeleteMessage(id, messageList, setMessageList) {
+export function handleDeleteMessage(
+  id,
+  SupabaseDelete,
+  messageList,
+  setMessageList
+) {
   const newMessageList = messageList.filter(message => message.id !== id)
+  SupabaseDelete(id)
   setMessageList(newMessageList)
 }
