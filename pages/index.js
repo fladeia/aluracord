@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { Box, Button, Text, TextField, Image } from '@skynexui/components'
-import appConfig from '../config.json'
+import appConfig from '../src/config/config.json'
 
 function Title(props) {
   const Tag = props.tag || 'h1'

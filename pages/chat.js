@@ -4,6 +4,7 @@ import { Box, Text, TextField, Image, Button } from '@skynexui/components'
 import { SupabaseSelect, SupabaseInsert } from '../src/services/supabase'
 import { ButtonSendSticker } from '../src/components/Buttons/ButtonSendSticker'
 import { Header } from '../src/components/Header'
+import { handleNewMessage, handleDeleteMessage } from '../src/utils/handler'
 import appConfig from '../src/config/config.json'
 
 export default function ChatPage() {
@@ -15,18 +16,6 @@ export default function ChatPage() {
   useEffect(() => {
     SupabaseSelect(setMessageList)
   }, [])
-
-  function handleNewMessage(newMessage) {
-    const message = {
-      // id: messageList.length + 1,
-      from: loggedInUser,
-      text: newMessage
-    }
-
-    SupabaseInsert(message)
-    setMessageList([message, ...messageList])
-    setMessage('')
-  }
 
   return (
     <Box
@@ -69,7 +58,10 @@ export default function ChatPage() {
             padding: '16px'
           }}
         >
-          <MessageList messages={messageList} updateList={setMessageList} />
+          <MessageList
+            messageList={messageList}
+            setMessageList={setMessageList}
+          />
 
           <Box
             as="form"
@@ -87,7 +79,14 @@ export default function ChatPage() {
               onKeyPress={event => {
                 if (event.key === 'Enter') {
                   event.preventDefault()
-                  handleNewMessage(message)
+                  handleNewMessage(
+                    message,
+                    messageList,
+                    loggedInUser,
+                    SupabaseInsert,
+                    setMessageList,
+                    setMessage
+                  )
                 }
               }}
               placeholder="Insira sua mensagem aqui..."
@@ -113,7 +112,14 @@ export default function ChatPage() {
               label="Enviar"
               onClick={event => {
                 event.preventDefault()
-                handleNewMessage(message)
+                handleNewMessage(
+                  message,
+                  messageList,
+                  loggedInUser,
+                  SupabaseInsert,
+                  setMessageList,
+                  setMessage
+                )
               }}
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals['000'],
@@ -130,12 +136,12 @@ export default function ChatPage() {
 }
 
 function MessageList(props) {
-  // console.log(props.updateList)
-
-  function deleteMessage(id) {
-    const newList = props.messages.filter(message => message.id !== id)
-    props.updateList(newList)
-  }
+  // function handleDeleteMessage(id) {
+  //   const newMessageList = props.messageList.filter(
+  //     message => message.id !== id
+  //   )
+  //   props.setMessageList(newMessageList)
+  // }
 
   return (
     <Box
@@ -149,7 +155,7 @@ function MessageList(props) {
         marginBottom: '16px'
       }}
     >
-      {props.messages.map(message => {
+      {props.messageList.map(message => {
         return (
           <Text
             key={message.id}
@@ -195,7 +201,11 @@ function MessageList(props) {
                 label="X"
                 onClick={event => {
                   event.preventDefault()
-                  deleteMessage(message.id)
+                  handleDeleteMessage(
+                    message.id,
+                    props.messageList,
+                    props.setMessageList
+                  )
                 }}
                 buttonColors={{
                   contrastColor: appConfig.theme.colors.neutrals['000'],
