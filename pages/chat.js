@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Box, Text, TextField, Image, Button } from '@skynexui/components'
-import { ButtonSendSticker } from '../src/components/ButtonSendSticker'
-import { SupabaseSelect, SupabaseInsert } from '../src/functions/functions'
-import appConfig from '../config.json'
+import { SupabaseSelect, SupabaseInsert } from '../src/services/supabase'
+import { ButtonSendSticker } from '../src/components/Buttons/ButtonSendSticker'
+import { Header } from '../src/components/Header'
+import appConfig from '../src/config/config.json'
 
 export default function ChatPage() {
   const [message, setMessage] = useState('')
@@ -17,7 +18,7 @@ export default function ChatPage() {
 
   function handleNewMessage(newMessage) {
     const message = {
-      id: messageList.length + 1,
+      // id: messageList.length + 1,
       from: loggedInUser,
       text: newMessage
     }
@@ -125,30 +126,6 @@ export default function ChatPage() {
         </Box>
       </Box>
     </Box>
-  )
-}
-
-function Header() {
-  return (
-    <>
-      <Box
-        styleSheet={{
-          width: '100%',
-          marginBottom: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}
-      >
-        <Text variant="heading5">Chat</Text>
-        <Button
-          variant="tertiary"
-          colorVariant="neutral"
-          label="Logout"
-          href="/"
-        />
-      </Box>
-    </>
   )
 }
 
