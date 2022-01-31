@@ -108,7 +108,14 @@ export default function ChatPage() {
             />
             <ButtonSendSticker
               onStickerClick={sticker => {
-                handleNewMessage(`:sticker: ${sticker}`)
+                handleNewMessage(
+                  `:sticker: ${sticker}`,
+                  messageList,
+                  loggedInUser,
+                  SupabaseInsert,
+                  setMessageList,
+                  setMessage
+                )
               }}
             />
             <Button
@@ -124,6 +131,9 @@ export default function ChatPage() {
                   setMessageList,
                   setMessage
                 )
+              }}
+              styleSheet={{
+                margin: '0 0 8px 8px'
               }}
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals['000'],
@@ -196,6 +206,7 @@ function MessageList(props) {
               <Button
                 type="text"
                 label="X"
+                styleSheet={{ justifyContent: 'flex-end' }}
                 onClick={event => {
                   event.preventDefault()
                   handleDeleteMessage(
@@ -215,7 +226,10 @@ function MessageList(props) {
             </Box>
             {/* {message.text} */}
             {message.text.startsWith(':sticker:') ? (
-              <Image src={message.text.replace(':sticker:', '')} />
+              <Image
+                src={message.text.replace(':sticker:', '')}
+                styleSheet={{ maxWidth: '20%' }}
+              />
             ) : (
               message.text
             )}
