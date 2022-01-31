@@ -20,7 +20,7 @@ function Title(props) {
 }
 
 export default function PaginaInicial() {
-  const [username, setUsername] = React.useState('fladeia')
+  const [username, setUsername] = React.useState('')
   const router = useRouter()
   // const stateDoReact = React.useState('fladeia')
 
@@ -96,6 +96,7 @@ export default function PaginaInicial() {
               value={username}
               onChange={handler}
               fullWidth
+              placeholder="Insira seu usuário do Github"
               textFieldColors={{
                 neutral: {
                   textColor: appConfig.theme.colors.neutrals[200],
@@ -141,7 +142,11 @@ export default function PaginaInicial() {
                   borderRadius: '50%',
                   marginBottom: '16px'
                 }}
-                src={`https://github.com/${username}.png`}
+                src={
+                  username !== ''
+                    ? `https://github.com/${username}.png`
+                    : `https://github.com/github.png`
+                }
               />
             </a>
             <Text
@@ -153,7 +158,7 @@ export default function PaginaInicial() {
                 borderRadius: '1000px'
               }}
             >
-              {username}
+              {username !== '' ? username : 'Octocat'}
             </Text>
           </Box>
           {/* Photo Area */}

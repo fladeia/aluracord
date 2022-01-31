@@ -213,32 +213,34 @@ function MessageList(props) {
               >
                 {new Date().toLocaleDateString()}
               </Text>
-              <Button
-                type="text"
-                label="X"
-                styleSheet={{
-                  marginLeft: '8px',
-                  paddingLeft: '8px',
-                  paddingRight: '8px',
-                  paddingTop: '4px',
-                  paddingBottom: '4px'
-                }}
-                onClick={event => {
-                  event.preventDefault()
-                  handleDeleteMessage(
-                    message.id,
-                    SupabaseDelete,
-                    props.messageList,
-                    props.setMessageList
-                  )
-                }}
-                buttonColors={{
-                  contrastColor: appConfig.theme.colors.neutrals['000'],
-                  mainColor: appConfig.theme.colors.primary[500],
-                  mainColorLight: appConfig.theme.colors.primary[400],
-                  mainColorStrong: appConfig.theme.colors.primary[600]
-                }}
-              />
+              {message.from === props.loggedInUser && (
+                <Button
+                  type="text"
+                  label="X"
+                  styleSheet={{
+                    marginLeft: '8px',
+                    paddingLeft: '8px',
+                    paddingRight: '8px',
+                    paddingTop: '4px',
+                    paddingBottom: '4px'
+                  }}
+                  onClick={event => {
+                    event.preventDefault()
+                    handleDeleteMessage(
+                      message.id,
+                      SupabaseDelete,
+                      props.messageList,
+                      props.setMessageList
+                    )
+                  }}
+                  buttonColors={{
+                    contrastColor: appConfig.theme.colors.neutrals['000'],
+                    mainColor: appConfig.theme.colors.primary[500],
+                    mainColorLight: appConfig.theme.colors.primary[400],
+                    mainColorStrong: appConfig.theme.colors.primary[600]
+                  }}
+                />
+              )}
             </Box>
             {/* {message.text} */}
             {message.text.startsWith(':sticker:') ? (
