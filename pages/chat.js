@@ -16,6 +16,7 @@ export default function ChatPage() {
   const [messageList, setMessageList] = useState([])
   const router = useRouter()
   const loggedInUser = router.query.username
+  console.log(loggedInUser)
 
   useEffect(() => {
     SupabaseSelect(setMessageList)
@@ -49,7 +50,7 @@ export default function ChatPage() {
           padding: '32px'
         }}
       >
-        <Header />
+        <Header loggedInUser={loggedInUser} />
         <Box
           styleSheet={{
             position: 'relative',
@@ -65,6 +66,7 @@ export default function ChatPage() {
           <MessageList
             messageList={messageList}
             setMessageList={setMessageList}
+            loggedInUser={loggedInUser}
           />
 
           <Box
@@ -171,8 +173,15 @@ function MessageList(props) {
               borderRadius: '5px',
               padding: '6px',
               marginBottom: '12px',
+              backgroundColor:
+                message.from === props.loggedInUser
+                  ? appConfig.theme.colors.neutrals[700]
+                  : appConfig.theme.colors.neutrals[600],
               hover: {
-                backgroundColor: appConfig.theme.colors.neutrals[700]
+                backgroundColor:
+                  message.from === props.loggedInUser
+                    ? appConfig.theme.colors.neutrals[500]
+                    : appConfig.theme.colors.neutrals[400]
               }
             }}
           >
