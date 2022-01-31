@@ -10,13 +10,13 @@ import { ButtonSendSticker } from '../src/components/Buttons/ButtonSendSticker'
 import { Header } from '../src/components/Header'
 import { handleNewMessage, handleDeleteMessage } from '../src/utils/handler'
 import appConfig from '../src/config/config.json'
+import { Loading } from '../src/components/Loading'
 
 export default function ChatPage() {
   const [message, setMessage] = useState('')
   const [messageList, setMessageList] = useState([])
   const router = useRouter()
   const loggedInUser = router.query.username
-  console.log(loggedInUser)
 
   useEffect(() => {
     SupabaseSelect(setMessageList)
@@ -63,11 +63,15 @@ export default function ChatPage() {
             padding: '16px'
           }}
         >
-          <MessageList
-            messageList={messageList}
-            setMessageList={setMessageList}
-            loggedInUser={loggedInUser}
-          />
+          {messageList.length == 0 ? (
+            <Loading />
+          ) : (
+            <MessageList
+              messageList={messageList}
+              setMessageList={setMessageList}
+              loggedInUser={loggedInUser}
+            />
+          )}
 
           <Box
             as="form"
@@ -152,11 +156,13 @@ export default function ChatPage() {
 }
 
 function MessageList(props) {
+  console.log(props.messageList)
+
   return (
     <Box
       tag="ul"
       styleSheet={{
-        overflow: 'scroll',
+        overflowY: 'scroll',
         display: 'flex',
         flexDirection: 'column-reverse',
         flex: 1,
@@ -211,7 +217,10 @@ function MessageList(props) {
                 }}
                 tag="span"
               >
-                {new Date().toLocaleDateString()}
+                {new Date(message.created_at).toLocaleString('pt-BR', {
+                  dateStyle: 'short',
+                  timeStyle: 'short'
+                })}
               </Text>
               {message.from === props.loggedInUser && (
                 <Button
