@@ -179,7 +179,8 @@ function MessageList(props) {
             <Box
               styleSheet={{
                 marginBottom: '8px',
-                display: 'flex'
+                display: 'flex',
+                alignItems: 'center'
               }}
             >
               <Image
@@ -206,7 +207,13 @@ function MessageList(props) {
               <Button
                 type="text"
                 label="X"
-                styleSheet={{ justifyContent: 'flex-end' }}
+                styleSheet={{
+                  marginLeft: '8px',
+                  paddingLeft: '8px',
+                  paddingRight: '8px',
+                  paddingTop: '4px',
+                  paddingBottom: '4px'
+                }}
                 onClick={event => {
                   event.preventDefault()
                   handleDeleteMessage(
