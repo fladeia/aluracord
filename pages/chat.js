@@ -156,8 +156,6 @@ export default function ChatPage() {
 }
 
 function MessageList(props) {
-  console.log(props.messageList)
-
   return (
     <Box
       tag="ul"
@@ -251,7 +249,6 @@ function MessageList(props) {
                 />
               )}
             </Box>
-            {/* {message.text} */}
             {message.text.startsWith(':sticker:') ? (
               <Image
                 src={message.text.replace(':sticker:', '')}

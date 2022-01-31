@@ -25,15 +25,11 @@ function GlobalStyle() {
         flex: 1;
       }
       /* ./App fit Height */
-      ul.sknui-ul {
-        -webkit-scrollbar: width: '10px',
-      }
     `}</style>
   )
 }
 
 export default function CustomApp({ Component, pageProps }) {
-  // console.log('Roda em todas as páginas!')
   return (
     <>
       <GlobalStyle />
